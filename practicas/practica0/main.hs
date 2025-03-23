@@ -62,3 +62,18 @@ negacionAB (Bin izq val der) = Bin (negacionAB izq) (not val) (negacionAB der)
 productoAB :: AB Int -> Int
 productoAB Nil = 1
 productoAB (Bin izq n der) = n * productoAB izq * productoAB der
+
+-- Ejercicio de la teórica
+
+merge :: (a -> a -> Bool) -> [a] -> [a] -> [a]
+merge _ [] ys = ys
+merge _ xs [] = xs
+merge comp (x : xs) (y : ys)
+  | comp x y = x : (merge comp xs (y : ys))
+  | otherwise = y : (merge comp (x : xs) ys)
+
+mergeSort :: (a -> a -> Bool) -> [a] -> [a]
+mergeSort _ [x] = [x]
+mergeSort comp xs = merge comp (mergeSort comp (take mid xs)) (mergeSort comp (drop mid xs))
+  where
+    mid = div (length xs) 2
